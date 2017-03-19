@@ -5,6 +5,6 @@ class BetweenIntValidator
 {
     public function __invoke($value, int $min, int $max): bool
     {
-       return  $value <= $max && $value >= $min;
+        return $value <= $max && $value >= $min;
     }
 }
