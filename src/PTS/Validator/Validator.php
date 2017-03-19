@@ -75,7 +75,7 @@ class Validator
         return array_filter($errors);
     }
 
-    protected function validateValue($value, array $rules)
+    protected function validateValue($value, array $rules): array
     {
         $errors = [];
 
@@ -96,5 +96,4 @@ class Validator
 
         return $errors;
     }
-
 }
