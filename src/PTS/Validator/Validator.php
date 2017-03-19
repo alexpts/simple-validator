@@ -80,7 +80,7 @@ class Validator
         $errors = [];
 
         foreach ($rules as $ruleString) {
-            $params = explode($this->paramDelimiter, $ruleString); // ['numberBetween', '3', '5']
+            $params = explode($this->paramDelimiter, $ruleString);
 
             $handlerAlias = array_shift($params);
             $handler = $this->rulesHandlers[$handlerAlias] ?? null;
