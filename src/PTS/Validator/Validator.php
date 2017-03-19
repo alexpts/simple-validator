@@ -7,6 +7,7 @@ use PTS\Validator\Validators\AlphaNumValidator;
 use PTS\Validator\Validators\AlphaValidator;
 use PTS\Validator\Validators\BetweenIntValidator;
 use PTS\Validator\Validators\BoolValidator;
+use PTS\Validator\Validators\DateTimeValidator;
 use PTS\Validator\Validators\DateValidator;
 use PTS\Validator\Validators\InArrayValidator;
 use PTS\Validator\Validators\RequiredValidator;
@@ -32,6 +33,7 @@ class Validator
         $this->registerRule('alphaDash', new AlphaDashValidator);
         $this->registerRule('alphaNum', new AlphaNumValidator);
         $this->registerRule('date', new DateValidator);
+        $this->registerRule('dateTime', new DateTimeValidator);
         $this->registerRule('inArray', new InArrayValidator);
     }
 

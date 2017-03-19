@@ -5,9 +5,6 @@ class DateValidator
 {
     public function __invoke($value): bool
     {
-        if ($value instanceof \DateTime) {
-            return true;
-        }
 
         if ((!is_string($value) && !is_numeric($value)) || strtotime($value) === false) {
             return false;
