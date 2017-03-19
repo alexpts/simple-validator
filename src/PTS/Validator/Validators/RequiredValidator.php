@@ -15,10 +15,6 @@ class RequiredValidator
             return false;
         }
 
-        if ((is_array($value) || $value instanceof \Countable) && count($value) < 1) {
-            return false;
-        }
-
-        return true;
+        return !((is_array($value) || $value instanceof \Countable) && count($value) < 1);
     }
 }
