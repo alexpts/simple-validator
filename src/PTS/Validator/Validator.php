@@ -10,6 +10,8 @@ use PTS\Validator\Validators\BoolValidator;
 use PTS\Validator\Validators\DateTimeValidator;
 use PTS\Validator\Validators\DateValidator;
 use PTS\Validator\Validators\InArrayValidator;
+use PTS\Validator\Validators\MaxValidator;
+use PTS\Validator\Validators\MinValidator;
 use PTS\Validator\Validators\RequiredValidator;
 
 class Validator
@@ -35,6 +37,8 @@ class Validator
         $this->registerRule('date', new DateValidator);
         $this->registerRule('dateTime', new DateTimeValidator);
         $this->registerRule('inArray', new InArrayValidator);
+        $this->registerRule('min', new MinValidator);
+        $this->registerRule('max', new MaxValidator);
     }
 
     public function registerRule(string $name, callable $handler)

@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use PTS\Validator\Validator;
 use PTS\Validator\ValidatorRuleException;
 
-class DataTransformerTest extends TestCase
+class ValidatorTest extends TestCase
 {
     /** @var Validator */
     protected $validator;
@@ -91,6 +91,16 @@ class DataTransformerTest extends TestCase
     }
 
     public function testValidateIfExist()
+    {
+        $data = ['name' => 'Alex', 'age' => 32];
+        $errors = $this->validator->validateIfExists($data, [
+            'age' => ['int', 'betweenInt:1:120'],
+        ]);
+
+        self::assertCount(0, $errors);
+    }
+
+    public function testMinValidator()
     {
         $data = ['name' => 'Alex', 'age' => 32];
         $errors = $this->validator->validateIfExists($data, [

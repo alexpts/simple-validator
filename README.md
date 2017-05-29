@@ -9,3 +9,19 @@
 
 
 Простой валидатор входящих запросов или ассоциативных массивов. Без дополнительных зависимостей.
+
+
+Example:
+
+```php
+$body = (array)$this->request->getParsedBody();
+
+$validator = new Validator;
+$errors = $validator->validate($body, [
+    'parentId' => ['int', 'betweenInt:0:99999'],
+    'name' => ['string', 'min:3'],
+    'slug' => ['string', 'min:3', 'max:120'],
+    'sort' => ['int']
+]);
+
+```
