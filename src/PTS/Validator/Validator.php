@@ -86,7 +86,7 @@ class Validator
         $errors = [];
 
         foreach ($rules as $rule) {
-            [$handlerAlias, $params] = is_string($rule)
+            list($handlerAlias, $params) = is_string($rule)
                 ? $this->extractStringRule($rule)
                 : $this->extractArrayRule($rule);
 
