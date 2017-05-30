@@ -85,10 +85,11 @@ class Validator
     {
         $errors = [];
 
-        foreach ($rules as $ruleString) {
-            $params = explode($this->paramDelimiter, $ruleString);
+        foreach ($rules as $rule) {
+            [$handlerAlias, $params] = is_string($rule)
+                ? $this->extractStringRule($rule)
+                : $this->extractArrayRule($rule);
 
-            $handlerAlias = array_shift($params);
             $handler = $this->rulesHandlers[$handlerAlias] ?? null;
 
             if (!$handler) {
@@ -101,5 +102,18 @@ class Validator
         }
 
         return $errors;
+    }
+
+    public function extractArrayRule(array $rule): array
+    {
+        return [key($rule), current($rule)];
+    }
+
+    public function extractStringRule(string $rule): array
+    {
+        $params = explode($this->paramDelimiter, $rule);
+        $handlerAlias = array_shift($params);
+
+        return [$handlerAlias, (array)$params];
     }
 }

@@ -109,44 +109,4 @@ class ValidatorTest extends TestCase
 
         self::assertCount(0, $errors);
     }
-
-    /**
-     * @dataProvider dataProviderForRequiredValidator
-     */
-    public function testRequiredValidator($data, $rules, $expected)
-    {
-        $errors = $this->validator->validate($data, $rules);
-        self::assertCount($expected, $errors);
-    }
-    
-    public function dataProviderForRequiredValidator()
-    {
-        $rules = [
-            'name' => ['required'],
-            'age' => ['required'],
-            'size' => ['required']
-        ];
-
-        return [
-            [
-                [
-                    'name' => 'Alex',
-                    'age' => 32,
-                    'size' => ['M']
-                ],
-                $rules,
-                0
-            ],
-
-            [
-                [
-                    'name' => '',
-                    'age' => null,
-                    'size' => []
-                ],
-                $rules,
-                3
-            ],
-        ];
-    }
 }

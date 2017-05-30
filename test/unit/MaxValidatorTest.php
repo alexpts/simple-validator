@@ -37,7 +37,7 @@ class MaxValidatorTest extends TestCase
         return [
             [
                 ['name' => 'Alex'],
-                ['name' => ['max:4']],
+                ['name' => ['max:4', 'min:3']],
                 0
             ],
             [
