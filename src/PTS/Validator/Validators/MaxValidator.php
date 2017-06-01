@@ -7,7 +7,7 @@ class MaxValidator
 {
     public function __invoke($value, int $max): bool
     {
-        if (is_numeric($value)) {
+        if (is_int($value) || is_float($value)) {
             return $value <= $max;
         }
 

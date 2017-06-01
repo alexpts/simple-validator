@@ -81,6 +81,23 @@ class MaxValidatorTest extends TestCase
                 ['age' => 12],
                 ['age' => ['max:18']],
                 0
+            ],
+
+            [
+                // compare as string, not as number
+                ['age' => '2000'],
+                ['age' => ['max:3']],
+                1
+            ],
+            [
+                ['age' => '2000'],
+                ['age' => ['max:4']],
+                0
+            ],
+            [
+                ['age' => '2000'],
+                ['age' => ['max:5']],
+                0
             ]
         ];
     }

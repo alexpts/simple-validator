@@ -81,6 +81,23 @@ class MinValidatorTest extends TestCase
                 ['age' => 12],
                 ['age' => ['min:18']],
                 1
+            ],
+
+            [
+                // compare as string, not as number
+                ['age' => '20'],
+                ['age' => ['min:4']],
+                1
+            ],
+            [
+                ['age' => '20'],
+                ['age' => ['min:2']],
+                0
+            ],
+            [
+                ['age' => '2'],
+                ['age' => ['min:1']],
+                0
             ]
         ];
     }
