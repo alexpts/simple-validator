@@ -8,7 +8,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/alexpts/simple-validator/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/alexpts/simple-validator/?branch=master)
 
 
-Простой валидатор входящих запросов или ассоциативных массивов. Без дополнительных зависимостей.
+Simple validator for validate accos arrays.
 
 
 Example:
@@ -34,22 +34,28 @@ $errors = $validator->validate($body, [
     'sort' => ['int']
 ]);
 
+// validate if exists
+$errors = $validator->validateIfExists($body, [
+    'name' => ['string', ['min' => [3]] ],
+    'sort' => ['int'] // field not passed, not validate
+]);
+
 ```
 
 
-#### Список доступных валидаторов:
+#### Lists:
 
 ##### string
-Значение является строковым типом
+The field under validation must be string
 
 ##### int
-Значение является типом integer
+The field under validation must be integer
 
 ##### array
-Значение является типом array
+The field under validation must be array
 
 ##### strictBool
-Значение является типом boolean
+The field under validation must be boolean
 
 ##### required
 Обязательное значение. Не пустая строка или не пустой массив
