@@ -51,6 +51,14 @@ class InArrayValidatorTest extends TestCase
                     ['max' => [5]]
                 ]],
                 0
+            ],
+
+            [
+                ['name' => 1],
+                ['name' => [
+                    ['inArray' => [[1, 2, 3]]]
+                ]],
+                0
             ]
         ];
     }
