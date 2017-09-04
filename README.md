@@ -57,7 +57,7 @@ $errors = $validator->validateIfExists($body, [
 ```
 
 
-#### Lists:
+#### Validators:
 
 ##### string
 The field under validation must be string
@@ -103,3 +103,11 @@ Min length fot string, min value for number, min count for array
 
 ##### max
 Max length fot string, max value for number, max count for array
+
+
+#### Custom validator
+You can add custom validator via method
+
+```php
+public function registerRule(string $name, callable $handler): self
+```
