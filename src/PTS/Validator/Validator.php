@@ -81,7 +81,7 @@ class Validator
             }
 
             if (!$validateIfExist) {
-                $errors[$name] = 'Value is not exists or bad: ' . $name;
+                $errors[$name] = 'Value is not exists or bad: '.$name;
             }
         }
 
@@ -90,7 +90,7 @@ class Validator
 
     public function validateIfExists(array $data, array $rules): array
     {
-       return $this->validate($data, $rules, true);
+        return $this->validate($data, $rules, true);
     }
 
     /**
@@ -138,6 +138,6 @@ class Validator
         $params = explode($this->paramDelimiter, $rule);
         $handlerAlias = array_shift($params);
 
-        return [$handlerAlias, (array)$params];
+        return [$handlerAlias, (array) $params];
     }
 }
