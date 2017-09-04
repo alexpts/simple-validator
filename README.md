@@ -7,11 +7,12 @@
 [![Code Climate](https://codeclimate.com/github/alexpts/simple-validator/badges/gpa.svg)](https://codeclimate.com/github/alexpts/simple-validator)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/alexpts/simple-validator/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/alexpts/simple-validator/?branch=master)
 
-
 Simple validator for validate accos arrays.
 
+#### Install
+`composer require alexpts/simple-validator`
 
-Example:
+#### Example
 
 ```php
 $body = (array)$this->request->getParsedBody();
@@ -103,7 +104,6 @@ Min length fot string, min value for number, min count for array
 
 ##### max
 Max length fot string, max value for number, max count for array
-
 
 #### Custom validator
 You can add custom validator via method
