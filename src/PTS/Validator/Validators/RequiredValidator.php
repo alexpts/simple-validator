@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace PTS\Validator\Validators;
 
@@ -8,7 +8,7 @@ class RequiredValidator
     public function __invoke($value): bool
     {
         if ($value === null) {
-           return false;
+            return false;
         }
 
         if (is_string($value) && trim($value) === '') {
