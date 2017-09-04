@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace PTS\DataTransformer;
 
 use PHPUnit\Framework\TestCase;
+use PTS\Tools\DeepArray;
 use PTS\Validator\Validator;
 use PTS\Validator\ValidatorRuleException;
 
@@ -14,7 +15,7 @@ class IntValidatorTest extends TestCase
 
     public function setUp()
     {
-        $this->validator = new Validator;
+        $this->validator = new Validator(new DeepArray);
     }
 
     public function testValidateInt(): void

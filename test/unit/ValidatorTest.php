@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace PTS\DataTransformer;
 
 use PHPUnit\Framework\TestCase;
+use PTS\Tools\DeepArray;
 use PTS\Validator\Validator;
 use PTS\Validator\ValidatorRuleException;
 
@@ -14,7 +15,7 @@ class ValidatorTest extends TestCase
 
     public function setUp()
     {
-        $this->validator = new Validator;
+        $this->validator = new Validator(new DeepArray);
     }
 
     public function testGetRules()
@@ -87,7 +88,7 @@ class ValidatorTest extends TestCase
         ]);
 
         self::assertCount(1, $errors);
-        self::assertEquals('Value is not exists: age', $errors['age']);
+        self::assertEquals('Value is not exists or bad: age', $errors['age']);
     }
 
     public function testValidateIfExist()

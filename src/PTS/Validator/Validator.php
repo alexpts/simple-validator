@@ -2,6 +2,7 @@
 
 namespace PTS\Validator;
 
+use PTS\Tools\DeepArray;
 use PTS\Validator\Validators\AlphaDashValidator;
 use PTS\Validator\Validators\AlphaNumValidator;
 use PTS\Validator\Validators\AlphaValidator;
@@ -18,32 +19,48 @@ class Validator
 {
     /** @var bool */
     protected $paramDelimiter = ':';
+    protected $keysDelimiter = '.';
+
+    /** @var DeepArray */
+    protected $deepArrayService;
+
+    /** @var ValidatorRuleException */
+    protected $notExistValue;
 
     /** @var callable[] */
     protected $rulesHandlers = [];
 
-    public function __construct()
+    public function __construct(DeepArray $deepArrayService)
     {
-        $this->registerRule('string', 'is_string');
-        $this->registerRule('int', 'is_int');
-        $this->registerRule('array', 'is_array');
-        $this->registerRule('required', new RequiredValidator);
-        $this->registerRule('betweenInt', new BetweenIntValidator);
-        $this->registerRule('strictBool', 'is_bool');
-        $this->registerRule('bool', new BoolValidator);
-        $this->registerRule('alpha', new AlphaValidator);
-        $this->registerRule('alphaDash', new AlphaDashValidator);
-        $this->registerRule('alphaNum', new AlphaNumValidator);
-        $this->registerRule('date', new DateValidator);
-        $this->registerRule('dateTime', new DateTimeValidator);
-        $this->registerRule('inArray', new InArrayValidator);
-        $this->registerRule('min', new MinValidator);
-        $this->registerRule('max', new MaxValidator);
+        $this->notExistValue = new ValidatorRuleException('Value is not exists');
+        $this->deepArrayService = $deepArrayService;
+
+        $this->registerRule('string', 'is_string')
+            ->registerRule('int', 'is_int')
+            ->registerRule('array', 'is_array')
+            ->registerRule('required', new RequiredValidator)
+            ->registerRule('betweenInt', new BetweenIntValidator)
+            ->registerRule('strictBool', 'is_bool')
+            ->registerRule('bool', new BoolValidator)
+            ->registerRule('alpha', new AlphaValidator)
+            ->registerRule('alphaDash', new AlphaDashValidator)
+            ->registerRule('alphaNum', new AlphaNumValidator)
+            ->registerRule('date', new DateValidator)
+            ->registerRule('dateTime', new DateTimeValidator)
+            ->registerRule('inArray', new InArrayValidator)
+            ->registerRule('min', new MinValidator)
+            ->registerRule('max', new MaxValidator);
     }
 
-    public function registerRule(string $name, callable $handler)
+    /**
+     * @param string $name
+     * @param callable $handler
+     * @return $this
+     */
+    public function registerRule(string $name, callable $handler): self
     {
         $this->rulesHandlers[$name] = $handler;
+        return $this;
     }
 
     public function getRules(): array
@@ -51,19 +68,21 @@ class Validator
         return $this->rulesHandlers;
     }
 
-    public function validate(array $data, array $rules): array
+    public function validate(array $data, array $rules, bool $validateIfExist = false): array
     {
         $errors = [];
 
         foreach ($rules as $name => $attrRules) {
-            if (!array_key_exists($name, $data)) {
-                $errors[$name] = 'Value is not exists: ' . $name;
+            $value = $this->getValue($name, $data, $this->notExistValue);
+
+            if (!($value instanceof $this->notExistValue)) {
+                $errors[$name] = $this->validateValue($value, $attrRules);
                 continue;
             }
 
-            $value = $data[$name] ?? null;
-
-            $errors[$name] = $this->validateValue($value, $attrRules);
+            if (!$validateIfExist) {
+                $errors[$name] = 'Value is not exists or bad: ' . $name;
+            }
         }
 
         return array_filter($errors);
@@ -71,14 +90,19 @@ class Validator
 
     public function validateIfExists(array $data, array $rules): array
     {
-        $errors = [];
+       return $this->validate($data, $rules, true);
+    }
 
-        foreach ($data as $name => $value) {
-            $attrRules = $rules[$name] ?? [];
-            $errors[$name] = $this->validateValue($value, $attrRules);
-        }
-
-        return array_filter($errors);
+    /**
+     * @param string $name
+     * @param array $data
+     * @param mixed $default
+     * @return mixed
+     */
+    protected function getValue(string $name, array $data, $default)
+    {
+        $names = explode($this->keysDelimiter, $name);
+        return $this->deepArrayService->getAttr($names, $data, $default);
     }
 
     protected function validateValue($value, array $rules): array

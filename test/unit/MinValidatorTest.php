@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace PTS\DataTransformer;
 
 use PHPUnit\Framework\TestCase;
+use PTS\Tools\DeepArray;
 use PTS\Validator\Validator;
 
 class MinValidatorTest extends TestCase
@@ -13,7 +14,7 @@ class MinValidatorTest extends TestCase
 
     public function setUp()
     {
-        $this->validator = new Validator;
+        $this->validator = new Validator(new DeepArray);
     }
 
     /**

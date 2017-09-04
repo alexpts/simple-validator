@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace PTS\DataTransformer;
 
 use PHPUnit\Framework\TestCase;
+use PTS\Tools\DeepArray;
 use PTS\Validator\Validator;
 
 class ValidatorExtractTest extends TestCase
@@ -13,7 +14,7 @@ class ValidatorExtractTest extends TestCase
 
     public function setUp(): void
     {
-        $this->validator = new Validator;
+        $this->validator = new Validator(new DeepArray);
     }
 
     /**
