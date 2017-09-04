@@ -40,6 +40,20 @@ $errors = $validator->validateIfExists($body, [
     'sort' => ['int'] // field not passed, not validate
 ]);
 
+
+// deep attributes
+$errors = $validator->validate($body, [
+    'user' => ['array', 'min:3'],
+    'user.name' => ['string', 'min:3'],
+    'user.age' => ['int'],
+]);
+
+$errors = $validator->validateIfExists($body, [
+    'user' => ['array', 'min:3'],
+    'user.name' => ['string', 'min:3'],
+    'user.age' => ['int'],
+]);
+
 ```
 
 
