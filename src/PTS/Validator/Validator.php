@@ -17,8 +17,9 @@ use PTS\Validator\Validators\RequiredValidator;
 
 class Validator
 {
-    /** @var bool */
+    /** @var string */
     protected $paramDelimiter = ':';
+    /** @var string */
     protected $keysDelimiter = '.';
 
     /** @var DeepArray */
