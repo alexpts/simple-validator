@@ -18,6 +18,9 @@ class IntValidatorTest extends TestCase
         $this->validator = new Validator(new DeepArray);
     }
 
+    /**
+     * @throws ValidatorRuleException
+     */
     public function testValidateInt(): void
     {
         $data = ['age' => 24, 'badAge' => '24'];

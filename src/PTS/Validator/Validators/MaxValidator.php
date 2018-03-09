@@ -1,11 +1,11 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PTS\Validator\Validators;
 
 class MaxValidator
 {
-    public function __invoke($value, int $max): bool
+    public function __invoke($value, $max): bool
     {
         if (is_int($value) || is_float($value)) {
             return $value <= $max;

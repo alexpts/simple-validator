@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use PTS\Tools\DeepArray;
 use PTS\Validator\Validator;
 
-class InArrayValidatorTest extends TestCase
+class DateTimeValidatorTest extends TestCase
 {
     /** @var Validator */
     protected $validator;
@@ -26,7 +26,7 @@ class InArrayValidatorTest extends TestCase
      *
      * @throws \PTS\Validator\ValidatorRuleException
      */
-    public function testInArrayValidator(array $data, array $rules, int $expectedCountErrors = 0): void
+    public function testDateTimeValidator(array $data, array $rules, int $expectedCountErrors = 0): void
     {
         $errors = $this->validator->validate($data, $rules);
         $errors2 = $this->validator->validateIfExists($data, $rules);
@@ -37,32 +37,23 @@ class InArrayValidatorTest extends TestCase
 
     public function providerData(): array
     {
+
         return [
             [
-                ['name' => 'Alex'],
-                ['name' => [
-                    ['inArray' => [['Jonn', 'Dima']]],
-                    ['max' => [5]]
-                ]],
+                ['date' => new \DateTime('@1520585473')],
+                ['date' => ['dateTime']],
+                0
+            ],
+            [
+                ['date' => 1520585473],
+                ['date' => ['dateTime']],
                 1
             ],
-
             [
-                ['name' => 'Alex'],
-                ['name' => [
-                    ['inArray' => [['Jonn', 'Alex']]],
-                    ['max' => [5]]
-                ]],
-                0
+                ['date' => '12-12-2015'],
+                ['date' => ['dateTime']],
+                1
             ],
-
-            [
-                ['name' => 1],
-                ['name' => [
-                    ['inArray' => [[1, 2, 3]]]
-                ]],
-                0
-            ]
         ];
     }
 }

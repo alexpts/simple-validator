@@ -20,9 +20,11 @@ class MaxValidatorTest extends TestCase
     /**
      * @param array $data
      * @param array $rules
-     * @param int $expectedCountErrors
+     * @param int   $expectedCountErrors
      *
      * @dataProvider providerData
+     *
+     * @throws \PTS\Validator\ValidatorRuleException
      */
     public function testMaxValidator(array $data, array $rules, int $expectedCountErrors = 0): void
     {

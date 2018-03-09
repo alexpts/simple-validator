@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use PTS\Tools\DeepArray;
 use PTS\Validator\Validator;
 
-class InArrayValidatorTest extends TestCase
+class EmailValidatorTest extends TestCase
 {
     /** @var Validator */
     protected $validator;
@@ -26,7 +26,7 @@ class InArrayValidatorTest extends TestCase
      *
      * @throws \PTS\Validator\ValidatorRuleException
      */
-    public function testInArrayValidator(array $data, array $rules, int $expectedCountErrors = 0): void
+    public function testEmailValidator(array $data, array $rules, int $expectedCountErrors = 0): void
     {
         $errors = $this->validator->validate($data, $rules);
         $errors2 = $this->validator->validateIfExists($data, $rules);
@@ -39,30 +39,30 @@ class InArrayValidatorTest extends TestCase
     {
         return [
             [
-                ['name' => 'Alex'],
-                ['name' => [
-                    ['inArray' => [['Jonn', 'Dima']]],
-                    ['max' => [5]]
-                ]],
+                ['email' => 'true'],
+                ['email' => ['email']],
                 1
             ],
-
             [
-                ['name' => 'Alex'],
-                ['name' => [
-                    ['inArray' => [['Jonn', 'Alex']]],
-                    ['max' => [5]]
-                ]],
+                ['email' => 'alex@php.io'],
+                ['email' => ['email']],
                 0
             ],
-
             [
-                ['name' => 1],
-                ['name' => [
-                    ['inArray' => [[1, 2, 3]]]
-                ]],
-                0
-            ]
+                ['email' => 'alex@php'],
+                ['email' => ['email']],
+                1
+            ],
+            [
+                ['email' => 'alex.io'],
+                ['email' => ['email']],
+                1
+            ],
+            [
+                ['email' => '@php.io'],
+                ['email' => ['email']],
+                1
+            ],
         ];
     }
 }

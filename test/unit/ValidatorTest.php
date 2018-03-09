@@ -18,17 +18,17 @@ class ValidatorTest extends TestCase
         $this->validator = new Validator(new DeepArray);
     }
 
-    public function testGetRules()
+    public function testGetRules(): void
     {
         $rules = $this->validator->getRules();
 
-        self::assertGreaterThan(5, count($rules));
+        self::assertGreaterThan(5, \count($rules));
         foreach ($rules as $handler) {
-            self::assertTrue(is_callable($handler));
+            self::assertInternalType('callable', $handler);
         }
     }
 
-    public function testRegisterRule()
+    public function testRegisterRule(): void
     {
         $this->validator->registerRule('someValidator2', function() {
             return true;
@@ -39,7 +39,10 @@ class ValidatorTest extends TestCase
         self::assertArrayHasKey('someValidator2', $rules);
     }
 
-    public function testRunUnknownRule()
+    /**
+     * @throws ValidatorRuleException
+     */
+    public function testRunUnknownRule(): void
     {
         $this->expectException(ValidatorRuleException::class);
 
@@ -49,7 +52,10 @@ class ValidatorTest extends TestCase
         ]);
     }
 
-    public function testValidateInt()
+    /**
+     * @throws ValidatorRuleException
+     */
+    public function testValidateInt(): void
     {
         $data = ['age' => 24, 'badAge' => '24'];
         $errors = $this->validator->validate($data, [
@@ -63,23 +69,10 @@ class ValidatorTest extends TestCase
         self::assertCount(1, $errors);
     }
 
-    public function testValidateBool()
-    {
-        $data = ['isCheck2' => true];
-        $errors = $this->validator->validate($data, [
-            'isCheck2' => ['bool'],
-        ]);
-        self::assertCount(0, $errors);
-
-        $data = ['isCheck3' => 'true', 'isOn' => 'on'];
-        $errors = $this->validator->validate($data, [
-            'isCheck3' => ['bool'],
-            'isOn' => ['bool'],
-        ]);
-        self::assertCount(0, $errors);
-    }
-
-    public function testValidateIfNotPassFields()
+    /**
+     * @throws ValidatorRuleException
+     */
+    public function testValidateIfNotPassFields(): void
     {
         $data = ['name' => 'Alex'];
         $errors = $this->validator->validate($data, [
@@ -89,25 +82,5 @@ class ValidatorTest extends TestCase
 
         self::assertCount(1, $errors);
         self::assertEquals('Value is not exists or bad: age', $errors['age']);
-    }
-
-    public function testValidateIfExist()
-    {
-        $data = ['name' => 'Alex', 'age' => 32];
-        $errors = $this->validator->validateIfExists($data, [
-            'age' => ['int', 'betweenInt:1:120'],
-        ]);
-
-        self::assertCount(0, $errors);
-    }
-
-    public function testMinValidator()
-    {
-        $data = ['name' => 'Alex', 'age' => 32];
-        $errors = $this->validator->validateIfExists($data, [
-            'age' => ['int', 'betweenInt:1:120'],
-        ]);
-
-        self::assertCount(0, $errors);
     }
 }

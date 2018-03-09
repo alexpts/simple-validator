@@ -41,7 +41,6 @@ $errors = $validator->validateIfExists($body, [
     'sort' => ['int'] // field not passed, not validate
 ]);
 
-
 // deep attributes
 $errors = $validator->validate($body, [
     'user' => ['array', 'min:3'],
@@ -54,7 +53,6 @@ $errors = $validator->validateIfExists($body, [
     'user.name' => ['string', 'min:3'],
     'user.age' => ['int'],
 ]);
-
 ```
 
 
@@ -69,9 +67,6 @@ The field under validation must be integer
 ##### array
 The field under validation must be array
 
-##### strictBool
-The field under validation must be boolean
-
 ##### required
 Обязательное значение. Не пустая строка или не пустой массив
 
@@ -79,7 +74,7 @@ The field under validation must be boolean
 Чиcло входит в указанный диапозон [min, max]
 
 ##### bool
-Yes, 1, true является true (FILTER_VALIDATE_BOOLEAN)
+The field under validation must be boolean
 
 ##### alpha
 The field under validation must be entirely alphabetic characters
@@ -104,6 +99,9 @@ Min length fot string, min value for number, min count for array
 
 ##### max
 Max length fot string, max value for number, max count for array
+
+##### email
+The field under validation must be simple email string
 
 #### Custom validator
 You can add custom validator via method

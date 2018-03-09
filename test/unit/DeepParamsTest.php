@@ -17,7 +17,10 @@ class DeepParamsTest extends TestCase
         $this->validator = new Validator(new DeepArray);
     }
 
-    public function testDeepValidate()
+    /**
+     * @throws \PTS\Validator\ValidatorRuleException
+     */
+    public function testDeepValidate(): void
     {
         $data = ['user' => [
            'age' => 24,
@@ -38,7 +41,10 @@ class DeepParamsTest extends TestCase
         self::assertCount(2, $errors2);
     }
 
-    public function testDeepValidateIfExists()
+    /**
+     * @throws \PTS\Validator\ValidatorRuleException
+     */
+    public function testDeepValidateIfExists(): void
     {
         $data = ['user' => [
             'name' => 'Alex'

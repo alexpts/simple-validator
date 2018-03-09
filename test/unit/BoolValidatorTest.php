@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use PTS\Tools\DeepArray;
 use PTS\Validator\Validator;
 
-class InArrayValidatorTest extends TestCase
+class BoolValidatorTest extends TestCase
 {
     /** @var Validator */
     protected $validator;
@@ -26,7 +26,7 @@ class InArrayValidatorTest extends TestCase
      *
      * @throws \PTS\Validator\ValidatorRuleException
      */
-    public function testInArrayValidator(array $data, array $rules, int $expectedCountErrors = 0): void
+    public function testBoolValidator(array $data, array $rules, int $expectedCountErrors = 0): void
     {
         $errors = $this->validator->validate($data, $rules);
         $errors2 = $this->validator->validateIfExists($data, $rules);
@@ -39,30 +39,35 @@ class InArrayValidatorTest extends TestCase
     {
         return [
             [
-                ['name' => 'Alex'],
-                ['name' => [
-                    ['inArray' => [['Jonn', 'Dima']]],
-                    ['max' => [5]]
-                ]],
+                ['required' => 'true'],
+                ['required' => ['bool']],
                 1
             ],
-
             [
-                ['name' => 'Alex'],
-                ['name' => [
-                    ['inArray' => [['Jonn', 'Alex']]],
-                    ['max' => [5]]
-                ]],
+                ['required' => 'false'],
+                ['required' => ['bool']],
+                1
+            ],
+            [
+                ['required' => '0'],
+                ['required' => ['bool']],
+                1
+            ],
+            [
+                ['required' => '1'],
+                ['required' => ['bool']],
+                1
+            ],
+            [
+                ['required' => true],
+                ['required' => ['bool']],
                 0
             ],
-
             [
-                ['name' => 1],
-                ['name' => [
-                    ['inArray' => [[1, 2, 3]]]
-                ]],
+                ['required' => false],
+                ['required' => ['bool']],
                 0
-            ]
+            ],
         ];
     }
 }

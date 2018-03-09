@@ -1,5 +1,4 @@
 <?php
-
 namespace PTS\Validator;
 
 use PTS\Tools\DeepArray;
@@ -7,9 +6,9 @@ use PTS\Validator\Validators\AlphaDashValidator;
 use PTS\Validator\Validators\AlphaNumValidator;
 use PTS\Validator\Validators\AlphaValidator;
 use PTS\Validator\Validators\BetweenIntValidator;
-use PTS\Validator\Validators\BoolValidator;
 use PTS\Validator\Validators\DateTimeValidator;
 use PTS\Validator\Validators\DateValidator;
+use PTS\Validator\Validators\EmailValidator;
 use PTS\Validator\Validators\InArrayValidator;
 use PTS\Validator\Validators\MaxValidator;
 use PTS\Validator\Validators\MinValidator;
@@ -41,8 +40,8 @@ class Validator
             ->registerRule('array', 'is_array')
             ->registerRule('required', new RequiredValidator)
             ->registerRule('betweenInt', new BetweenIntValidator)
+            ->registerRule('bool', 'is_bool')
             ->registerRule('strictBool', 'is_bool')
-            ->registerRule('bool', new BoolValidator)
             ->registerRule('alpha', new AlphaValidator)
             ->registerRule('alphaDash', new AlphaDashValidator)
             ->registerRule('alphaNum', new AlphaNumValidator)
@@ -50,7 +49,8 @@ class Validator
             ->registerRule('dateTime', new DateTimeValidator)
             ->registerRule('inArray', new InArrayValidator)
             ->registerRule('min', new MinValidator)
-            ->registerRule('max', new MaxValidator);
+            ->registerRule('max', new MaxValidator)
+            ->registerRule('email', new EmailValidator);
     }
 
     /**
@@ -69,6 +69,14 @@ class Validator
         return $this->rulesHandlers;
     }
 
+    /**
+     * @param array $data
+     * @param array $rules
+     * @param bool  $validateIfExist
+     *
+     * @return array
+     * @throws ValidatorRuleException
+     */
     public function validate(array $data, array $rules, bool $validateIfExist = false): array
     {
         $errors = [];
@@ -89,6 +97,14 @@ class Validator
         return array_filter($errors);
     }
 
+    /**
+     * @param array $data
+     * @param array $rules
+     *
+     * @return array
+     *
+     * @throws ValidatorRuleException
+     */
     public function validateIfExists(array $data, array $rules): array
     {
         return $this->validate($data, $rules, true);
@@ -106,12 +122,20 @@ class Validator
         return $this->deepArrayService->getAttr($names, $data, $default);
     }
 
+    /**
+     * @param mixed $value
+     * @param array $rules
+     *
+     * @return array - errors
+     *
+     * @throws ValidatorRuleException
+     */
     protected function validateValue($value, array $rules): array
     {
         $errors = [];
 
         foreach ($rules as $rule) {
-            list($handlerAlias, $params) = is_string($rule)
+            list($handlerAlias, $params) = \is_string($rule)
                 ? $this->extractStringRule($rule)
                 : $this->extractArrayRule($rule);
 
@@ -139,6 +163,6 @@ class Validator
         $params = explode($this->paramDelimiter, $rule);
         $handlerAlias = array_shift($params);
 
-        return [$handlerAlias, (array) $params];
+        return [$handlerAlias, (array)$params];
     }
 }

@@ -19,9 +19,15 @@ class RequiredValidatorTest extends TestCase
     }
 
     /**
+     * @param array $data
+     * @param array $rules
+     * @param int $expected
+     *
+     * @throws ValidatorRuleException
+     *
      * @dataProvider dataProviderForRequiredValidator
      */
-    public function testRequiredValidator($data, $rules, $expected)
+    public function testRequiredValidator(array $data, array $rules, int $expected): void
     {
         $errors = $this->validator->validate($data, $rules);
         self::assertCount($expected, $errors);

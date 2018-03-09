@@ -1,11 +1,11 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace PTS\Validator\Validators;
 
 class MinValidator
 {
-    public function __invoke($value, int $min): bool
+    public function __invoke($value, $min): bool
     {
         if (is_int($value) || is_float($value)) {
             return $value >= $min;

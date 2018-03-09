@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use PTS\Tools\DeepArray;
 use PTS\Validator\Validator;
 
-class InArrayValidatorTest extends TestCase
+class BetweenIntValidatorTest extends TestCase
 {
     /** @var Validator */
     protected $validator;
@@ -26,7 +26,7 @@ class InArrayValidatorTest extends TestCase
      *
      * @throws \PTS\Validator\ValidatorRuleException
      */
-    public function testInArrayValidator(array $data, array $rules, int $expectedCountErrors = 0): void
+    public function testBetweenIntValidator(array $data, array $rules, int $expectedCountErrors = 0): void
     {
         $errors = $this->validator->validate($data, $rules);
         $errors2 = $this->validator->validateIfExists($data, $rules);
@@ -39,30 +39,30 @@ class InArrayValidatorTest extends TestCase
     {
         return [
             [
-                ['name' => 'Alex'],
-                ['name' => [
-                    ['inArray' => [['Jonn', 'Dima']]],
-                    ['max' => [5]]
-                ]],
+                ['age' => 1],
+                ['age' => [['betweenInt' => [0, 100]]]],
+                0
+            ],
+            [
+                ['age' => 1],
+                ['age' => ['betweenInt:0:100']],
+                0
+            ],
+            [
+                ['age' => 1],
+                ['age' => ['betweenInt:4:100']],
                 1
             ],
-
             [
-                ['name' => 'Alex'],
-                ['name' => [
-                    ['inArray' => [['Jonn', 'Alex']]],
-                    ['max' => [5]]
-                ]],
-                0
+                ['age' => -1],
+                ['age' => ['betweenInt:0:100']],
+                1
             ],
-
             [
-                ['name' => 1],
-                ['name' => [
-                    ['inArray' => [[1, 2, 3]]]
-                ]],
-                0
-            ]
+                ['age' => 101],
+                ['age' => ['betweenInt:0:100']],
+                1
+            ],
         ];
     }
 }
