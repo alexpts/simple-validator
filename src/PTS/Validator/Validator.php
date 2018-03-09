@@ -5,6 +5,7 @@ use PTS\Tools\DeepArray;
 use PTS\Validator\Validators\AlphaDashValidator;
 use PTS\Validator\Validators\AlphaNumValidator;
 use PTS\Validator\Validators\AlphaValidator;
+use PTS\Validator\Validators\BetweenFloatValidator;
 use PTS\Validator\Validators\BetweenIntValidator;
 use PTS\Validator\Validators\DateTimeValidator;
 use PTS\Validator\Validators\DateValidator;
@@ -37,9 +38,11 @@ class Validator
 
         $this->registerRule('string', 'is_string')
             ->registerRule('int', 'is_int')
+            ->registerRule('float', 'is_float')
             ->registerRule('array', 'is_array')
             ->registerRule('required', new RequiredValidator)
             ->registerRule('betweenInt', new BetweenIntValidator)
+            ->registerRule('betweenFloat', new BetweenFloatValidator)
             ->registerRule('bool', 'is_bool')
             ->registerRule('strictBool', 'is_bool')
             ->registerRule('alpha', new AlphaValidator)

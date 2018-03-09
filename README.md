@@ -64,14 +64,20 @@ The field under validation must be string
 ##### int
 The field under validation must be integer
 
+##### float
+The field under validation must be float
+
 ##### array
 The field under validation must be array
 
 ##### required
-Обязательное значение. Не пустая строка или не пустой массив
+Required field
 
 ##### betweenInt:min:max
-Чиcло входит в указанный диапозон [min, max]
+Int from range [min, max]
+
+##### betweenFloat:min:max
+Float from range [min, max]
 
 ##### bool
 The field under validation must be boolean
